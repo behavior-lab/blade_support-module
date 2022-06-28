@@ -1,0 +1,12 @@
+{
+    "name": "behavior_lab/blade_support-module",
+    "type": "streams-addon",
+    "autoload": {
+        "psr-4": {
+            "BehaviorLab\\BladeSupportModule\\": "src/"
+        },
+        "files": [
+            "src/BladeSupportHelpers.php"
+        ]
+    }
+}
