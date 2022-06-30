@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Support\Str;
 use Illuminate\Support\Facades\DB;
-use MatthiasMullie\Minify;
 
 if (!function_exists('theme_path')) {
     /**
@@ -99,14 +98,17 @@ if (!function_exists('getImageFromEntry')) {
             return null;
         }
 
+        /** @var \Anomaly\FilesModule\File\FileModel $file */
         $file = \Anomaly\FilesModule\File\FileModel::find($imageId);
         if (in_array($file->getExtension(), config('anomaly.module.files::mimes.types.image'))) {
+            /** @var Image $image */
             $image = app(Image::class);
             $image = $image->make($file);
             if (!$image) {
                 return null;
             }
-
+            // TODO
+            // $image->encode('webp', 75);
             foreach ($options as $method => $arguments) {
                 if (is_array($arguments)) {
                     $argumentsArray = $arguments;
@@ -127,9 +129,6 @@ if (!function_exists('getImageFromEntry')) {
                     call_user_func_array([$image, Str::camel($method)], explode(',', $arguments));
                 }
             }
-//            if (count($options) === 0 && request()->accepts(['image/webp'])) {
-//                $image->encode('webp', 75);
-//            }
             return $image;
         }
         return $file;
@@ -272,8 +271,6 @@ if (!function_exists('search')) {
                 $query->orWhere('searchable', 'LIKE', '%' . $search . '%');
             }
         );
-
-//        dd((new SearchCriteria($query, $model->getStream(), 'get'))->in($where)->get());
 
         return (new SearchCriteria($query, $model->getStream(), 'get'))->in($where)->get();
     }
