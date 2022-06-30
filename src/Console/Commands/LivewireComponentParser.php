@@ -1,6 +1,6 @@
 <?php
 
-namespace BehaviorLab\BladeSupportModule\Console\Commands;
+namespace ConductLab\BladeSupportModule\Console\Commands;
 
 use Illuminate\Support\Str;
 use Livewire\Commands\ComponentParser;

@@ -1,4 +1,4 @@
-<?php namespace BehaviorLab\BladeSupportModule;
+<?php namespace ConductLab\BladeSupportModule;
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
 

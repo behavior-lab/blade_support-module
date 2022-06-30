@@ -1,6 +1,6 @@
 <?php
 
-namespace BehaviorLab\BladeSupportModule\Console\Commands;
+namespace ConductLab\BladeSupportModule\Console\Commands;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;

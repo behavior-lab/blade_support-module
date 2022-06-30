@@ -129,6 +129,9 @@ if (!function_exists('getImageFromEntry')) {
                     call_user_func_array([$image, Str::camel($method)], explode(',', $arguments));
                 }
             }
+            if (count($options) === 0 && request()->accepts(['image/webp'])) {
+                $image->encode('webp', 75);
+            }
             return $image;
         }
         return $file;

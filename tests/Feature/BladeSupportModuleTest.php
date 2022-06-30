@@ -1,4 +1,4 @@
-<?php namespace BehaviorLab\BladeSupportModule\Test\Feature;
+<?php namespace ConductLab\BladeSupportModule\Test\Feature;
 
 class BladeSupportModuleTest extends \TestCase
 {

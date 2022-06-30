@@ -1,8 +1,8 @@
-<?php namespace BehaviorLab\BladeSupportModule;
+<?php namespace ConductLab\BladeSupportModule;
 
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
-use BehaviorLab\BladeSupportModule\Console\Commands\PyroMakeBladeComponent;
-use BehaviorLab\BladeSupportModule\Console\Commands\PyroMakeLivewireComponent;
+use ConductLab\BladeSupportModule\Console\Commands\PyroMakeBladeComponent;
+use ConductLab\BladeSupportModule\Console\Commands\PyroMakeLivewireComponent;
 use Illuminate\Routing\Router;
 
 class BladeSupportModuleServiceProvider extends AddonServiceProvider
@@ -52,7 +52,7 @@ class BladeSupportModuleServiceProvider extends AddonServiceProvider
      * @type array|null
      */
     protected $middleware = [
-        //BehaviorLab\BladeSupportModule\Http\Middleware\ExampleMiddleware::class
+        //ConductLab\BladeSupportModule\Http\Middleware\ExampleMiddleware::class
     ];
 
     /**
@@ -62,7 +62,7 @@ class BladeSupportModuleServiceProvider extends AddonServiceProvider
      */
     protected $groupMiddleware = [
         //'web' => [
-        //    BehaviorLab\BladeSupportModule\Http\Middleware\ExampleMiddleware::class,
+        //    ConductLab\BladeSupportModule\Http\Middleware\ExampleMiddleware::class,
         //],
     ];
 
@@ -79,8 +79,8 @@ class BladeSupportModuleServiceProvider extends AddonServiceProvider
      * @type array|null
      */
     protected $listeners = [
-        //BehaviorLab\BladeSupportModule\Event\ExampleEvent::class => [
-        //    BehaviorLab\BladeSupportModule\Listener\ExampleListener::class,
+        //ConductLab\BladeSupportModule\Event\ExampleEvent::class => [
+        //    ConductLab\BladeSupportModule\Listener\ExampleListener::class,
         //],
     ];
 
@@ -90,7 +90,7 @@ class BladeSupportModuleServiceProvider extends AddonServiceProvider
      * @type array|null
      */
     protected $aliases = [
-        //'Example' => BehaviorLab\BladeSupportModule\Example::class
+        //'Example' => ConductLab\BladeSupportModule\Example::class
     ];
 
     /**

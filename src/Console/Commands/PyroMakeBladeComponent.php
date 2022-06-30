@@ -1,6 +1,6 @@
 <?php
 
-namespace BehaviorLab\BladeSupportModule\Console\Commands;
+namespace ConductLab\BladeSupportModule\Console\Commands;
 
 use Anomaly\BlocksModule\Type\TypeModel;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
