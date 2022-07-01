@@ -189,6 +189,17 @@ if (!function_exists('localizePath')) {
     }
 }
 
+if (!function_exists('textareaToHtml')) {
+    function textareaToHtml($text)
+    {
+        if (is_a($text, \Anomaly\TextareaFieldType\TextareaFieldTypePresenter::class)) {
+            return Str::replace("\n", '<br>', $text->value);
+        }
+
+        return $text;
+    }
+}
+
 if (!function_exists('search')) {
     function search($search, $where, $options = []): Anomaly\SearchModule\Item\ItemCollection
     {
