@@ -87,7 +87,7 @@ if (!function_exists('getImageFromEntry')) {
      * @param $entry
      * @param string $property
      */
-    function getImageFromEntry($entry, string $property, array $options = [])
+    function getImageFromEntry($entry, string $property, array $options = []): \Anomaly\FilesModule\File\FileModel|Image|null
     {
         $imageId = $entry->translate()->$property ?? $entry->translateOrDefault()->$property ?? $entry->$property;
 
@@ -145,12 +145,13 @@ if (!function_exists('getFileFromEntry')) {
      * @param $entry
      * @param string $property
      */
-    function getFileFromEntry($entry, string $property)
+    function getFileFromEntry($entry, string $property): ?\Anomaly\FilesModule\File\FileModel
     {
         $fileId = $entry->translate()->$property ?? $entry->translateOrDefault()->$property ?? $entry->$property;
         if (!$fileId) {
             return null;
         }
+        /** @var \Anomaly\FilesModule\File\FileModel $file */
         $file = \Anomaly\FilesModule\File\FileModel::find($fileId);
         if (!$file) {
             return null;
