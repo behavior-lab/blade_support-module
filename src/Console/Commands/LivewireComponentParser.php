@@ -41,7 +41,7 @@ class LivewireComponentParser extends ComponentParser
     public function viewName()
     {
         return collect()
-            ->push('theme::livewire')
+            ->push('theme::livewire.components')
             ->filter()
             ->concat($this->directories)
             ->map([Str::class, 'kebab'])
