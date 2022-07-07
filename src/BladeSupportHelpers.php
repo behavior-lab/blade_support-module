@@ -107,8 +107,11 @@ if (!function_exists('getImageFromEntry')) {
             if (!$image) {
                 return null;
             }
-            // TODO
-            // $image->encode('webp', 75);
+//            if (Str::contains($file->getName(), ' ')) {
+//                dd($image);
+//            }
+            // TODO $image->encode overrides ALL other alternations
+            $image = $image->encode('webp', 75);
             foreach ($options as $method => $arguments) {
                 if (is_array($arguments)) {
                     $argumentsArray = $arguments;
@@ -124,14 +127,13 @@ if (!function_exists('getImageFromEntry')) {
                         $constraint->upsize();
                     });
                 }
-                $arguments = implode(',', $argumentsArray);
                 if (in_array($method = Str::camel($method), $image->getAllowedMethods())) {
-                    call_user_func_array([$image, Str::camel($method)], explode(',', $arguments));
+                    call_user_func_array([$image, Str::camel($method)], $argumentsArray);
                 }
             }
-            if (count($options) === 0 && request()->accepts(['image/webp'])) {
-                $image->encode('webp', 75);
-            }
+//            if (count($options) === 0 && request()->accepts(['image/webp'])) {
+//                $image = $image->encode('webp', 75);
+//            }
             return $image;
         }
         return $file;
