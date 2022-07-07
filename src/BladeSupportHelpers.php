@@ -110,25 +110,27 @@ if (!function_exists('getImageFromEntry')) {
 //            if (Str::contains($file->getName(), ' ')) {
 //                dd($image);
 //            }
-            // TODO $image->encode overrides ALL other alternations
-            $image = $image->encode('webp', 75);
-            foreach ($options as $method => $arguments) {
-                if (is_array($arguments)) {
-                    $argumentsArray = $arguments;
-                } else {
-                    $argumentsArray = explode(',', $arguments);
-                }
-                if ($method === 'cover' && in_array(count($argumentsArray), [1, 2])) {
-                    $width = $argumentsArray[0];
-                    $height = array_key_exists(1, $argumentsArray) ? $argumentsArray[1] : $argumentsArray[0];
-                    $image->getWidth() > $image->getHeight() ? $width = null : $height = null;
-                    $image->resize($width, $height, function ($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
-                }
-                if (in_array($method = Str::camel($method), $image->getAllowedMethods())) {
-                    call_user_func_array([$image, Str::camel($method)], $argumentsArray);
+            if ($image->getExtension() !== 'svg') {
+                // TODO $image->encode overrides ALL other alternations
+                $image = $image->encode('webp', 75);
+                foreach ($options as $method => $arguments) {
+                    if (is_array($arguments)) {
+                        $argumentsArray = $arguments;
+                    } else {
+                        $argumentsArray = explode(',', $arguments);
+                    }
+                    if ($method === 'cover' && in_array(count($argumentsArray), [1, 2])) {
+                        $width = $argumentsArray[0];
+                        $height = array_key_exists(1, $argumentsArray) ? $argumentsArray[1] : $argumentsArray[0];
+                        $image->getWidth() > $image->getHeight() ? $width = null : $height = null;
+                        $image->resize($width, $height, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        });
+                    }
+                    if (in_array($method = Str::camel($method), $image->getAllowedMethods())) {
+                        call_user_func_array([$image, Str::camel($method)], $argumentsArray);
+                    }
                 }
             }
 //            if (count($options) === 0 && request()->accepts(['image/webp'])) {
