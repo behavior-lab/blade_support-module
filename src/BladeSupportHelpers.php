@@ -112,7 +112,7 @@ if (!function_exists('getImageFromEntry')) {
 //            }
             if ($image->getExtension() !== 'svg') {
                 // TODO $image->encode overrides ALL other alternations
-                $image = $image->encode('webp', 75);
+//                $image = $image->encode('webp', 75);
                 foreach ($options as $method => $arguments) {
                     if (is_array($arguments)) {
                         $argumentsArray = $arguments;
@@ -133,12 +133,110 @@ if (!function_exists('getImageFromEntry')) {
                     }
                 }
             }
-//            if (count($options) === 0 && request()->accepts(['image/webp'])) {
-//                $image = $image->encode('webp', 75);
-//            }
+            if (count($options) === 0 && request()->accepts(['image/webp'])) {
+                $image = $image->encode('webp');
+            }
             return $image;
         }
         return $file;
+    }
+}
+
+if (!function_exists('getFullWidthSrcsetSizes')) {
+    function getFullWidthSrcsetSizes(): array
+    {
+        return
+            [
+                "(max-width: 345px)" => [
+                    "resize" => 345,
+                    "quality" => 60
+                ],
+                "(max-width: 767px)" => [
+                    "resize" => 768,
+                    "quality" => 80
+                ],
+                "(max-width: 1023px)" => [
+                    "resize" => 1024,
+                    "quality" => 90
+                ],
+                "fallback" => [
+                    "resize" => 1400,
+                    "quality" => 90
+                ],
+            ];
+    }
+}
+
+if (!function_exists('getHalfWidthSrcsetSizes')) {
+    function getHalfWidthSrcsetSizes(): array
+    {
+        return [
+            "(max-width: 345px)" => [
+                "resize" => 173,
+                "quality" => 60
+            ],
+            "(max-width: 767px)" => [
+                "resize" => 384,
+                "quality" => 80
+            ],
+            "(max-width: 1023px)" => [
+                "resize" => 512,
+                "quality" => 90
+            ],
+            "fallback" => [
+                "resize" => 700,
+                "quality" => 90
+            ],
+        ];
+    }
+}
+
+if (!function_exists('getContainedWidthSrcsetSizes')) {
+    function getContainedWidthSrcsetSizes(): array
+    {
+        return
+            [
+                "(max-width: 375px)" => [
+                    "resize" => 375,
+                    "quality" => 60
+                ],
+                "(max-width: 767px)" => [
+                    "resize" => 668,
+                    "quality" => 80
+                ],
+                "(max-width: 1023px)" => [
+                    "resize" => 884,
+                    "quality" => 90
+                ],
+                "fallback" => [
+                    "resize" => 1200,
+                    "quality" => 90
+                ],
+            ];
+    }
+}
+
+if (!function_exists('getHalfContainedWidthSrcsetSizes')) {
+    function getHalfContainedWidthSrcsetSizes(): array
+    {
+        return [
+            "(max-width: 375px)" => [
+                "resize" => 375 / 2,
+                "quality" => 60
+            ],
+            "(max-width: 767px)" => [
+                "resize" => 668 / 2,
+                "quality" => 80
+            ],
+            "(max-width: 1023px)" => [
+                "resize" => 884 / 2,
+                "quality" => 90
+            ],
+            "fallback" => [
+                "resize" => 1200 / 2,
+                "quality" => 90
+            ],
+        ];
     }
 }
 
