@@ -10,12 +10,6 @@ use Anomaly\Streams\Platform\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 if (!function_exists('theme_path')) {
-    /**
-     * Get the path to the resources folder.
-     *
-     * @param string $path
-     * @return string
-     */
     function theme_path($path = ''): string
     {
         $addons = app(AddonCollection::class);
@@ -25,12 +19,6 @@ if (!function_exists('theme_path')) {
 }
 
 if (!function_exists('inline_resource_content')) {
-    /**
-     * Get the path to the resources folder.
-     *
-     * @param string $path
-     * @return string
-     */
     function inline_resource_content($file): string
     {
         if (Str::startsWith($file, 'theme::') && $file = Str::replace('theme::', '', $file)) {
@@ -52,28 +40,15 @@ if (!function_exists('inline_resource_content')) {
 }
 
 if (!function_exists('async_livewire_script')) {
-    /**
-     * Get the path to the resources folder.
-     *
-     * @param string $path
-     * @return string
-     */
     function async_livewire_script($options = []): string
     {
         $scripts = app(\Livewire\LivewireManager::class)->scripts($options);
-
 
         return $scripts;
     }
 }
 
 if (!function_exists('snake_to_kebab')) {
-    /**
-     * Get the path to the resources folder.
-     *
-     * @param string $path
-     * @return string
-     */
     function snake_to_kebab($string): string
     {
         return Str::kebab(Str::camel(Str::replace('/', '_', $string)));
@@ -81,12 +56,6 @@ if (!function_exists('snake_to_kebab')) {
 }
 
 if (!function_exists('getImageFromEntry')) {
-    /**
-     * Get the path to the resources folder.
-     *
-     * @param $entry
-     * @param string $property
-     */
     function getImageFromEntry($entry, string $property, array $options = []): \Anomaly\FilesModule\File\FileModel|Image|null
     {
         $imageId = $entry->translate()->$property ?? $entry->translateOrDefault()->$property ?? $entry->$property;
@@ -137,6 +106,28 @@ if (!function_exists('getImageFromEntry')) {
                 $image = $image->encode('webp');
             }
             return $image;
+        }
+        return $file;
+    }
+}
+
+if (!function_exists('getFileFromEntry')) {
+    function getFileFromEntry($entry, string $property): \Anomaly\FilesModule\File\FileModel|Image|null
+    {
+        $fileId = $entry->translate()->$property ?? $entry->translateOrDefault()->$property ?? $entry->$property;
+
+        if (is_object($fileId)) {
+            $fileId = $fileId->id;
+        }
+
+        if (!$fileId) {
+            return null;
+        }
+
+        /** @var \Anomaly\FilesModule\File\FileModel $file */
+        $file = \Anomaly\FilesModule\File\FileModel::find($fileId);
+        if (!$file) {
+            return null;
         }
         return $file;
     }
@@ -237,28 +228,6 @@ if (!function_exists('getHalfContainedWidthSrcsetSizes')) {
                 "quality" => 90
             ],
         ];
-    }
-}
-
-if (!function_exists('getFileFromEntry')) {
-    /**
-     * Get the path to the resources folder.
-     *
-     * @param $entry
-     * @param string $property
-     */
-    function getFileFromEntry($entry, string $property): ?\Anomaly\FilesModule\File\FileModel
-    {
-        $fileId = $entry->translate()->$property ?? $entry->translateOrDefault()->$property ?? $entry->$property;
-        if (!$fileId) {
-            return null;
-        }
-        /** @var \Anomaly\FilesModule\File\FileModel $file */
-        $file = \Anomaly\FilesModule\File\FileModel::find($fileId);
-        if (!$file) {
-            return null;
-        }
-        return $file;
     }
 }
 
