@@ -143,10 +143,6 @@ class BladeSupportModuleServiceProvider extends AddonServiceProvider
     {
         // Run extra pre-boot registration logic here.
         // Use method injection or commands to bring in services.
-
-        \Illuminate\Support\Facades\Blade::directive('preserveNl', function ($string) {
-            return '<?php echo e(' . $string . ') ?>';
-        });
     }
 
     /**
