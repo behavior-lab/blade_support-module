@@ -94,7 +94,6 @@ if (!function_exists('getImageFromEntry')) {
                         $image->getWidth() > $image->getHeight() ? $width = null : $height = null;
                         $image->resize($width, $height, function ($constraint) {
                             $constraint->aspectRatio();
-                            $constraint->upsize();
                         });
                     }
                     if (in_array($method = Str::camel($method), $image->getAllowedMethods())) {
@@ -102,7 +101,7 @@ if (!function_exists('getImageFromEntry')) {
                     }
                 }
             }
-            if (count($options) === 0 && request()->accepts(['image/webp'])) {
+            if ($image->getExtension() !== 'svg' && count($options) === 0 && request()->accepts(['image/webp'])) {
                 $image = $image->encode('webp');
             }
             return $image;
