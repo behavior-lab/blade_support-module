@@ -91,10 +91,13 @@ if (!function_exists('getImageFromEntry')) {
                     if ($method === 'cover' && in_array(count($argumentsArray), [1, 2])) {
                         $width = $argumentsArray[0];
                         $height = array_key_exists(1, $argumentsArray) ? $argumentsArray[1] : $argumentsArray[0];
+                        $widthOrg = $width;
+                        $heightOrg = $height;
                         $image->getWidth() > $image->getHeight() ? $width = null : $height = null;
                         $image->resize($width, $height, function ($constraint) {
                             $constraint->aspectRatio();
                         });
+                        $image->resizeCanvas($widthOrg, $heightOrg, 'center', false, array(255, 255, 255, 0));
                     }
                     if (in_array($method = Str::camel($method), $image->getAllowedMethods())) {
                         call_user_func_array([$image, Str::camel($method)], $argumentsArray);
