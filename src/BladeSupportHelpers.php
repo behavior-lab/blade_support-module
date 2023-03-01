@@ -115,6 +115,13 @@ if (!function_exists('getImageFromEntry')) {
                     $image->crop(round($imageData->width), round($imageData->height), round($imageData->x), round($imageData->y));
                     $options['auto-crop'] = null;
                 }
+                if (
+                    property_exists($imageData, 'greyscale')
+                    && $imageData->greyscale == 'Y'
+                ) {
+                    $image->greyscale();
+                    $options['auto-greyscale'] = null;
+                }
                 $style = [];
                 if (
                     property_exists($imageData, 'fit')
