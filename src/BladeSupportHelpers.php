@@ -59,6 +59,7 @@ if (!function_exists('getImageFromEntry')) {
     function getImageFromEntry($entry, string $property, array $options = []): \Anomaly\FilesModule\File\FileModel|Image|null
     {
         $imageId = $entry->translate()->$property ?? $entry->translateOrDefault()->$property ?? $entry->$property;
+        $imageId = $imageId ?? $entry->entry?->translate()->$property ?? $entry->entry?->translateOrDefault()->$property ?? $entry->entry?->$property;
 
         if (is_object($imageId)) {
             $imageId = $imageId->id;
@@ -75,6 +76,71 @@ if (!function_exists('getImageFromEntry')) {
             $image = $image->make($file);
             if (!$image) {
                 return null;
+            }
+            $propertyData = $property . '_data';
+            $imageData = $entry->translate()->$propertyData ?? $entry->translateOrDefault()->$propertyData ?? $entry->$propertyData;
+            $imageData = $imageData ?? $entry->entry?->translate()->$propertyData ?? $entry->entry?->translateOrDefault()->$propertyData ?? $entry->entry?->$propertyData;
+            $imageData = json_decode($imageData);
+//            if (array_key_exists('testing', $options)) {
+//                    dd($propertyData, $imageData, $image, $imageData->rotate);
+//            }
+            if ($imageData) {
+                if (
+                    property_exists($imageData, 'rotate')
+                    && $imageData->rotate <> 0
+                ) {
+                    $image->rotate($imageData->rotate * -1);
+                    $options['auto-rotate'] = null;
+                }
+                if (
+                    property_exists($imageData, 'scaleX')
+                    && $imageData->scaleX == -1
+                ) {
+                    $image->flip('h');
+                    $options['auto-flip'] = null;
+                }
+                if (
+                    property_exists($imageData, 'scaleY')
+                    && $imageData->scaleY == -1
+                ) {
+                    $image->flip('v');
+                    $options['auto-flip'] = null;
+                }
+                if (
+                    property_exists($imageData, 'x')
+                    && property_exists($imageData, 'y')
+                    && property_exists($imageData, 'width')
+                    && property_exists($imageData, 'height')
+                ) {
+                    $image->crop(round($imageData->width), round($imageData->height), round($imageData->x), round($imageData->y));
+                    $options['auto-crop'] = null;
+                }
+                $style = [];
+                if (
+                    property_exists($imageData, 'fit')
+                    && $imageData->fit != ''
+                ) {
+                    $style['object-fit'] = $imageData->fit;
+                }
+                if (
+                    property_exists($imageData, 'position')
+                    && $imageData->position != ''
+                ) {
+                    $style['object-position'] = $imageData->position;
+                }
+                if (
+                    property_exists($imageData, 'blend')
+                    && $imageData->blend != ''
+                ) {
+                    $style['mix-blend-mode'] = $imageData->blend;
+                }
+                if ($style) {
+                    $styleArray = [];
+                    foreach ($style as $property => $value) {
+                        $styleArray[] = $property . ': ' . $value;
+                    }
+                    $image->attr('style', join(';', $styleArray));
+                }
             }
 //            if (Str::contains($file->getName(), ' ')) {
 //                dd($image);
@@ -104,7 +170,7 @@ if (!function_exists('getImageFromEntry')) {
                     }
                 }
             }
-            if ($image->getExtension() !== 'svg' && count($options) === 0 && request()->accepts(['image/webp'])) {
+            if ($image->getExtension() !== 'svg' && count($image->getAlterations()) === 0 && request()->accepts(['image/webp'])) {
                 $image = $image->encode('webp');
             }
             return $image;
