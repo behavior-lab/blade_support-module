@@ -78,8 +78,8 @@ if (!function_exists('getImageFromEntry')) {
                 return null;
             }
             $propertyData = $property . '_data';
-            $imageData = $entry->translate()->$propertyData ?? $entry->translateOrDefault()->$propertyData ?? $entry->$propertyData;
-            $imageData = $imageData ?? $entry->entry?->translate()->$propertyData ?? $entry->entry?->translateOrDefault()->$propertyData ?? $entry->entry?->$propertyData;
+            $imageData = $entry->translate()?->$propertyData ?? $entry->translateOrDefault()?->$propertyData ?? $entry->$propertyData;
+            $imageData = $imageData ?? $entry->entry?->translate()?->$propertyData ?? $entry->entry?->translateOrDefault()?->$propertyData ?? $entry->entry?->$propertyData;
             $imageData = json_decode($imageData);
 //            if (array_key_exists('testing', $options)) {
 //                    dd($propertyData, $imageData, $image, $imageData->rotate);
