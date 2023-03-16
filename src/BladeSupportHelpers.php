@@ -148,6 +148,7 @@ if (!function_exists('getImageFromEntry')) {
                     }
                     $image->attr('style', join(';', $styleArray));
                 }
+                $image->attr('data-auto-generated', 'true');
             }
 //            if (Str::contains($file->getName(), ' ')) {
 //                dd($image);
